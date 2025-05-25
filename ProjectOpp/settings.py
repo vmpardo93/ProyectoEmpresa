@@ -83,10 +83,7 @@ WSGI_APPLICATION = 'ProjectOpp.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL', 'postgres://postgres:1234@127.0.0.1:5432/Base'),
-        conn_max_age=600
-    )
+    'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
 }
 
 
