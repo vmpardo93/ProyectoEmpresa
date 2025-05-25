@@ -24,8 +24,7 @@ venv/
 *.pyc
 db.sqlite3
 media/
-static/admin/
-static/rest_framework/
+staticfiles/
 
 # IDE
 .idea/
@@ -35,4 +34,12 @@ static/rest_framework/
 
 # OS
 .DS_Store
-Thumbs.db 
+Thumbs.db
+
+# Heroku
+*.env
+.env.*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local 
