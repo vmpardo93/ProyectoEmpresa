@@ -21,12 +21,14 @@ from Apps.Empresa.views import (
     organization_list, edit_organization, delete_organization,
     edit_profile
 )
+from home.views import about_us
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', login_view, name='login'),
+    path('', about_us, name='home'),
+    path('login/', login_view, name='login'),
     path('dashboard/', dashboard, name='dashboard'),
     path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
     path('organizations/', organization_list, name='organization_list'),
