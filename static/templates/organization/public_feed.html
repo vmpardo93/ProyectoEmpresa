@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block title %}Directorio de Empresas - ProjectOpp{% endblock %}
+
+{% block content_no_auth %}
+<div class="container py-5">
+    <!-- Header y Buscador -->
+    <div class="row mb-5">
+        <div class="col-lg-8 mx-auto text-center">
+            <h1 class="display-4 mb-4">Directorio de Empresas</h1>
+            <p class="lead text-muted mb-4">Encuentra las empresas y servicios que necesitas</p>
+            
+            <form method="get" class="mb-4">
+                <div class="input-group">
+                    <input type="text" 
+                           name="search" 
+                           class="form-control form-control-lg" 
+                           placeholder="Busca por nombre, tipo o servicios (ej: Marketing, Desarrollo)"
+                           value="{{ search_query }}">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fas fa-search me-2"></i>Buscar
+                    </button>
+                </div>
+                {% if search_query %}
+                <div class="mt-2">
+                    <a href="{% url 'public_feed' %}" class="text-decoration-none">
+                        <i class="fas fa-times-circle me-1"></i>Limpiar búsqueda
+                    </a>
+                </div>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+
+    <!-- Resultados -->
+    <div class="row g-4">
+        {% if organizations %}
+            {% for org in organizations %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm hover-shadow transition">
+                    <div class="card-body">
+                        <div class="text-center mb-3">
+                            {% if org.logo %}
+                                <img src="{{ org.logo.url }}" alt="{{ org.name }}" class="img-fluid mb-3" style="max-height: 100px;">
+                            {% else %}
+                                <div class="bg-light d-flex align-items-center justify-content-center mb-3" style="height: 100px;">
+                                    <i class="fas fa-building fa-3x text-secondary"></i>
+                                </div>
+                            {% endif %}
+                            <h5 class="card-title">{{ org.name }}</h5>
+                        </div>
+
+                        <!-- Tipo de Organización -->
+                        <div class="mb-3">
+                            <span class="badge bg-secondary">{{ org.type }}</span>
+                        </div>
+
+                        <!-- Servicios -->
+                        {% if org.services %}
+                        <div class="mb-3">
+                            {% for service in org.get_services_list %}
+                                <span class="badge bg-primary me-1 mb-1">{{ service }}</span>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <!-- Información de Contacto -->
+                        <div class="mb-2">
+                            <a href="{{ org.website }}" target="_blank" class="text-decoration-none text-muted">
+                                <i class="fas fa-globe me-2"></i>{{ org.website }}
+                            </a>
+                        </div>
+                        <div class="mb-2">
+                            <a href="tel:{{ org.phone }}" class="text-decoration-none text-muted">
+                                <i class="fas fa-phone me-2"></i>{{ org.phone }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12">
+                {% if search_query %}
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>No se encontraron empresas que coincidan con tu búsqueda.
+                    </div>
+                {% else %}
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>Aún no hay empresas registradas.
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Llamada a la acción -->
+    <div class="row mt-5">
+        <div class="col-lg-8 mx-auto text-center">
+            <div class="card bg-light">
+                <div class="card-body py-5">
+                    <h3>¿Tienes una empresa?</h3>
+                    <p class="lead mb-4">Únete a nuestra comunidad y da a conocer tus servicios</p>
+                    <a href="{% url 'login' %}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-user-plus me-2"></i>Registra tu empresa
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Estilos adicionales -->
+<style>
+.hover-shadow {
+    transition: all 0.3s ease;
+}
+.hover-shadow:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+}
+.transition {
+    transition: all 0.3s ease;
+}
+</style>
+{% endblock %} 

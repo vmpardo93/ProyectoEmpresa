@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.urls import reverse
+from django.db.models import Q
 from .models import UserProfile, Organization
 from .forms import OrganizationForm, UserProfileForm
 
@@ -125,3 +126,29 @@ def edit_profile(request):
         'form': form,
         'profile': profile
     })
+
+def public_feed(request):
+    search_query = request.GET.get('search', '')
+    organizations = Organization.objects.all()
+    
+    if search_query:
+        # Dividir la búsqueda en términos individuales
+        search_terms = [term.strip() for term in search_query.split(',')]
+        # Inicializar query vacío
+        query = Q()
+        
+        # Agregar cada término a la búsqueda
+        for term in search_terms:
+            query |= (
+                Q(name__icontains=term) |
+                Q(services__icontains=term) |
+                Q(type__icontains=term)
+            )
+        
+        organizations = organizations.filter(query).distinct()
+
+    context = {
+        'organizations': organizations,
+        'search_query': search_query,
+    }
+    return render(request, 'organization/public_feed.html', context)
