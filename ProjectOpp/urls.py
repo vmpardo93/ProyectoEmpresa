@@ -19,7 +19,7 @@ from django.contrib.auth.views import LogoutView
 from Apps.Empresa.views import (
     login_view, dashboard, create_organization,
     organization_list, edit_organization, delete_organization,
-    edit_profile
+    edit_profile, public_feed
 )
 from home.views import about_us
 from django.conf import settings
@@ -36,4 +36,5 @@ urlpatterns = [
     path('organization/<int:pk>/edit/', edit_organization, name='edit_organization'),
     path('organization/<int:pk>/delete/', delete_organization, name='delete_organization'),
     path('profile/edit/', edit_profile, name='edit_profile'),
+    path('directory/', public_feed, name='public_feed'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

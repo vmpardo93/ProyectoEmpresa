@@ -27,6 +27,7 @@ class Organization(models.Model):
     website=models.CharField(max_length=80) #
     phone=models.CharField(max_length=50)
     nit=models.CharField(max_length=20)
+    services = models.CharField(max_length=200, blank=True, null=True, help_text="Ingresa los servicios separados por comas (ej: Consultoría, Desarrollo, Marketing)")
     owner=models.ForeignKey(UserProfile, related_name="organizations", on_delete=models.CASCADE)
     @staticmethod
     def getCropAttribute():
@@ -34,3 +35,9 @@ class Organization(models.Model):
     @staticmethod
     def getCropPath():
         return "organization_logos/"
+
+    def get_services_list(self):
+        """Retorna la lista de servicios como una lista de strings"""
+        if self.services:
+            return [service.strip() for service in self.services.split(',')]
+        return []

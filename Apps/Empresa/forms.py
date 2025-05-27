@@ -5,14 +5,19 @@ from django.contrib.auth.models import User
 class OrganizationForm(forms.ModelForm):
     class Meta:
         model = Organization
-        fields = ['name', 'type', 'website', 'phone', 'nit', 'logo']
+        fields = ['name', 'type', 'website', 'phone', 'nit', 'logo', 'services']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre de la organización'}),
             'type': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Tipo de organización'}),
             'website': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'https://www.ejemplo.com'}),
             'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Teléfono'}),
             'nit': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'NIT'}),
-            'logo': forms.FileInput(attrs={'class': 'form-control'})
+            'logo': forms.FileInput(attrs={'class': 'form-control'}),
+            'services': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Ej: Consultoría, Desarrollo Web, Marketing Digital',
+                'data-role': 'tagsinput'  # Para usar Bootstrap Tags Input
+            })
         }
         labels = {
             'name': 'Nombre',
@@ -20,7 +25,8 @@ class OrganizationForm(forms.ModelForm):
             'website': 'Sitio Web',
             'phone': 'Teléfono',
             'nit': 'NIT',
-            'logo': 'Logo'
+            'logo': 'Logo',
+            'services': 'Servicios'
         }
 
 class UserProfileForm(forms.ModelForm):
