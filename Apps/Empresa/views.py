@@ -33,9 +33,13 @@ def dashboard(request):
         user_profile = request.user.profile
         organization = user_profile.organizations.first()  # Obtiene la primera organización
         
+        # Obtener las 6 organizaciones más recientes
+        recent_organizations = Organization.objects.all().order_by('-id')[:6]
+        
         context = {
             'user_profile': user_profile,
             'organization': organization,
+            'recent_organizations': recent_organizations,
         }
         return render(request, 'dashboard.html', context)
     except UserProfile.DoesNotExist:
@@ -46,9 +50,13 @@ def dashboard(request):
             first_name=request.user.first_name,
             last_name=request.user.last_name
         )
+        # Obtener las 6 organizaciones más recientes
+        recent_organizations = Organization.objects.all().order_by('-id')[:6]
+        
         context = {
             'user_profile': user_profile,
             'organization': None,
+            'recent_organizations': recent_organizations,
         }
         return render(request, 'dashboard.html', context)
 
