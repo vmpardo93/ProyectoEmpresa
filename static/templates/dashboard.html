@@ -3,123 +3,83 @@
 {% block title %}Dashboard - ProjectOpp{% endblock %}
 
 {% block content %}
-<div class="container-fluid">
-    <!-- Welcome Section -->
+<div class="container-fluid py-4">
+    <!-- Bienvenida y Perfil -->
     <div class="row mb-4">
-        <div class="col-12">
-            <h2>Bienvenido, {{ user.get_full_name|default:user.username }}</h2>
-            <p class="text-muted">Panel de Control</p>
-        </div>
-    </div>
-
-    <!-- Stats Cards -->
-    <div class="row mb-4">
-        <div class="col-md-4">
-            <div class="card bg-primary text-white">
-                <div class="card-body">
-                    <h5 class="card-title">Perfil</h5>
-                    <p class="card-text">
-                        <i class="fas fa-user fa-2x float-end"></i>
-                        {% if user_profile %}
-                            {{ user_profile.email }}
-                        {% else %}
-                            No hay perfil configurado
-                        {% endif %}
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card bg-success text-white">
-                <div class="card-body">
-                    <h5 class="card-title">Organización</h5>
-                    <p class="card-text">
-                        <i class="fas fa-building fa-2x float-end"></i>
-                        {% if organization %}
-                            {{ organization.name }}
-                        {% else %}
-                            Sin organización
-                        {% endif %}
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card bg-info text-white">
-                <div class="card-body">
-                    <h5 class="card-title">Estado</h5>
-                    <p class="card-text">
-                        <i class="fas fa-check-circle fa-2x float-end"></i>
-                        Activo
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Main Content Section -->
-    <div class="row">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Información del Perfil</h5>
-                </div>
+            <h1 class="h3">Bienvenido, {{ user_profile.get_full_name }}</h1>
+            <p class="text-muted">Panel de control de tu cuenta</p>
+        </div>
+        <div class="col-md-4 text-md-end">
+            <a href="{% url 'edit_profile' %}" class="btn btn-outline-primary">
+                <i class="fas fa-user-edit me-2"></i>Editar Perfil
+            </a>
+        </div>
+    </div>
+
+    <!-- Tarjetas de Acceso Rápido -->
+    <div class="row g-4 mb-4">
+        <!-- Organizaciones -->
+        <div class="col-md-6 col-xl-3">
+            <div class="card h-100">
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <p><strong>Nombre:</strong> {{ user_profile.first_name|default:"No especificado" }}</p>
-                            <p><strong>Apellido:</strong> {{ user_profile.last_name|default:"No especificado" }}</p>
-                            <p><strong>Email:</strong> {{ user_profile.email }}</p>
-                        </div>
-                        <div class="col-md-6">
-                            {% if organization %}
-                            <p><strong>Organización:</strong> {{ organization.name }}</p>
-                            <p><strong>Tipo:</strong> {{ organization.type }}</p>
-                            <p><strong>Sitio Web:</strong> {{ organization.website }}</p>
-                            {% else %}
-                            <p>No hay información de organización disponible</p>
-                            {% endif %}
-                        </div>
-                    </div>
+                    <h5 class="card-title">Mis Organizaciones</h5>
+                    <p class="card-text">Gestiona tus empresas y servicios</p>
+                    <a href="{% url 'organization_list' %}" class="btn btn-primary">
+                        <i class="fas fa-building me-2"></i>Ver Organizaciones
+                    </a>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Acciones Rápidas</h5>
-                </div>
+
+        <!-- Feed de Empresas -->
+        <div class="col-md-6 col-xl-3">
+            <div class="card h-100">
                 <div class="card-body">
-                    <div class="d-grid gap-2">
-                        <a href="{% url 'edit_profile' %}" class="btn btn-primary">
-                            <i class="fas fa-edit me-2"></i>Editar Perfil
-                        </a>
-                        {% if not organization %}
-                        <a href="{% url 'create_organization' %}" class="btn btn-success">
-                            <i class="fas fa-plus me-2"></i>Crear Organización
-                        </a>
-                        {% else %}
-                        <a href="#" class="btn btn-info">
-                            <i class="fas fa-building me-2"></i>Gestionar Organización
-                        </a>
-                        {% endif %}
-                        <a href="{% url 'public_feed' %}" class="btn btn-secondary">
-                            <i class="fas fa-search me-2"></i>Ver Directorio de Empresas
-                        </a>
-                    </div>
+                    <h5 class="card-title">Feed de Empresas</h5>
+                    <p class="card-text">Explora todas las empresas registradas</p>
+                    <a href="{% url 'dashboard_feed' %}" class="btn btn-primary">
+                        <i class="fas fa-stream me-2"></i>Ver Feed
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Directorio Público -->
+        <div class="col-md-6 col-xl-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Directorio Público</h5>
+                    <p class="card-text">Vista pública de las empresas</p>
+                    <a href="{% url 'public_feed' %}" class="btn btn-primary">
+                        <i class="fas fa-globe me-2"></i>Ver Directorio
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nueva Organización -->
+        <div class="col-md-6 col-xl-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Nueva Organización</h5>
+                    <p class="card-text">Registra una nueva empresa</p>
+                    <a href="{% url 'create_organization' %}" class="btn btn-success">
+                        <i class="fas fa-plus me-2"></i>Crear
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Feed de Empresas Section -->
-    <div class="row mt-4">
+    <!-- Feed de Empresas Recientes -->
+    <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0">Directorio de Empresas</h5>
-                    <a href="{% url 'public_feed' %}" class="btn btn-primary btn-sm">
-                        <i class="fas fa-external-link-alt me-1"></i>Ver Todo
+                    <h5 class="mb-0">Empresas Recientes</h5>
+                    <a href="{% url 'dashboard_feed' %}" class="btn btn-sm btn-primary">
+                        Ver Todas
                     </a>
                 </div>
                 <div class="card-body">
@@ -138,9 +98,13 @@
                                         {% endif %}
                                         <h5 class="card-title">{{ org.name }}</h5>
                                     </div>
+
+                                    <!-- Tipo de Organización -->
                                     <div class="mb-3">
                                         <span class="badge bg-secondary">{{ org.type }}</span>
                                     </div>
+
+                                    <!-- Servicios -->
                                     {% if org.services %}
                                     <div class="mb-3">
                                         {% for service in org.get_services_list %}
@@ -153,7 +117,7 @@
                         </div>
                         {% empty %}
                         <div class="col-12">
-                            <div class="alert alert-info">
+                            <div class="alert alert-info mb-0">
                                 <i class="fas fa-info-circle me-2"></i>No hay empresas registradas aún.
                             </div>
                         </div>

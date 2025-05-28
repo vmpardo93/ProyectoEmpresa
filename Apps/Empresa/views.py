@@ -159,4 +159,33 @@ def public_feed(request):
         'organizations': organizations,
         'search_query': search_query,
     }
+
+    # Si el usuario está autenticado, usar el template con sidebar
+    if request.user.is_authenticated:
+        try:
+            user_profile = request.user.profile
+            organization = user_profile.organizations.first()
+            context.update({
+                'user_profile': user_profile,
+                'organization': organization,
+            })
+        except UserProfile.DoesNotExist:
+            pass
+
     return render(request, 'organization/public_feed.html', context)
+
+@login_required
+def dashboard_feed(request):
+    try:
+        user_profile = request.user.profile
+        organization = user_profile.organizations.first()
+        organizations = Organization.objects.all().order_by('-id')
+        
+        context = {
+            'user_profile': user_profile,
+            'organization': organization,
+            'organizations': organizations,
+        }
+        return render(request, 'organization/dashboard_feed.html', context)
+    except UserProfile.DoesNotExist:
+        return redirect('dashboard')
