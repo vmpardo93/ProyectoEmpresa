@@ -48,6 +48,9 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    # ¡MIDDLEWARE DE SEGURIDAD PERSONALIZADO!
+    'Apps.Empresa.middleware.ActiveUserMiddleware',  # Verifica usuarios activos automáticamente
+    # 'Apps.Empresa.middleware.SecureSessionMiddleware',  # Middleware adicional (opcional)
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]

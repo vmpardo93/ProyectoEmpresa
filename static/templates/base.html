@@ -47,7 +47,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg {% if user.is_authenticated %}navbar-dark bg-primary{% else %}navbar-light bg-white border-bottom{% endif %} sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'home' %}">
+            <a class="navbar-brand" href="{% if user.is_authenticated %}{% url 'dashboard' %}{% else %}{% url 'about' %}{% endif %}">
                 <i class="fas fa-building me-2"></i>ProjectOpp
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
