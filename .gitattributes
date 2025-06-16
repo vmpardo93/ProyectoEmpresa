@@ -1,0 +1,5 @@
+# Archivos específicos de Heroku que queremos mantener en la rama Prod
+ProjectOpp/settings.py merge=ours
+ProjectOpp/urls.py merge=ours
+Apps/Empresa/middleware.py merge=ours
+Apps/Empresa/middleware_docs.md merge=ours 
