@@ -155,6 +155,7 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ['image', 'bio', 'phone', 'location']
+        exclude = ['language', 'receive_notifications']
         widgets = {
             'image': forms.FileInput(attrs={'class': 'form-control'}),
             'bio': forms.Textarea(attrs={
@@ -170,16 +171,12 @@ class UserProfileForm(forms.ModelForm):
                 'class': 'form-control', 
                 'placeholder': 'Ciudad, País'
             }),
-            #'language': forms.Select(attrs={'class': 'form-control'}),
-            #'receive_notifications': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
         labels = {
             'image': 'Foto de Perfil',
             'bio': 'Biografía',
             'phone': 'Teléfono',
             'location': 'Ubicación',
-            #'language': 'Idioma',
-            #'receive_notifications': 'Recibir Notificaciones',
         }
 
     def __init__(self, *args, **kwargs):
@@ -194,6 +191,9 @@ class UserProfileForm(forms.ModelForm):
         profile = super().save(commit=False)
         # Establecer el idioma por defecto a español
         profile.language = 'es-es'
+        # Mantener el valor actual de receive_notifications
+        if not profile.pk:  # Si es un nuevo perfil
+            profile.receive_notifications = True
         
         # Actualizar campos del modelo User (sin duplicación)
         user = profile.user
