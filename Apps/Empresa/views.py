@@ -56,9 +56,9 @@ def login_view(request):
             if user is not None:
                 # Verificar explícitamente si el usuario está activo
                 if user.is_active:
-                login(request, user)
+                    login(request, user)
                     messages.success(request, f"¡Bienvenido {user.username}!")
-                return redirect('dashboard')
+                    return redirect('dashboard')
                 else:
                     # Usuario existe pero está inactivo
                     messages.error(request, 
