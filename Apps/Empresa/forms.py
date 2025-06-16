@@ -154,8 +154,8 @@ class UserProfileForm(forms.ModelForm):
     # Campos específicos del UserProfile (sin duplicación)
     class Meta:
         model = UserProfile
-        fields = ['image', 'bio', 'phone', 'location']
-        exclude = ['language', 'receive_notifications']
+        fields = ['image', 'bio', 'phone']
+        exclude = ['location','language', 'receive_notifications']
         widgets = {
             'image': forms.FileInput(attrs={'class': 'form-control'}),
             'bio': forms.Textarea(attrs={
@@ -167,16 +167,11 @@ class UserProfileForm(forms.ModelForm):
                 'class': 'form-control', 
                 'placeholder': '+57 300 123 4567'
             }),
-            'location': forms.TextInput(attrs={
-                'class': 'form-control', 
-                'placeholder': 'Ciudad, País'
-            }),
         }
         labels = {
             'image': 'Foto de Perfil',
             'bio': 'Biografía',
             'phone': 'Teléfono',
-            'location': 'Ubicación',
         }
 
     def __init__(self, *args, **kwargs):
