@@ -170,16 +170,16 @@ class UserProfileForm(forms.ModelForm):
                 'class': 'form-control', 
                 'placeholder': 'Ciudad, País'
             }),
-            'language': forms.Select(attrs={'class': 'form-control'}),
-            'receive_notifications': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            #'language': forms.Select(attrs={'class': 'form-control'}),
+            #'receive_notifications': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
         labels = {
             'image': 'Foto de Perfil',
             'bio': 'Biografía',
             'phone': 'Teléfono',
             'location': 'Ubicación',
-            'language': 'Idioma',
-            'receive_notifications': 'Recibir Notificaciones',
+            #'language': 'Idioma',
+            #'receive_notifications': 'Recibir Notificaciones',
         }
 
     def __init__(self, *args, **kwargs):
