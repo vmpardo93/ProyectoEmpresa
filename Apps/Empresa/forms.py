@@ -154,7 +154,7 @@ class UserProfileForm(forms.ModelForm):
     # Campos específicos del UserProfile (sin duplicación)
     class Meta:
         model = UserProfile
-        fields = ['image', 'bio', 'phone', 'location', 'language', 'receive_notifications']
+        fields = ['image', 'bio', 'phone', 'location']
         widgets = {
             'image': forms.FileInput(attrs={'class': 'form-control'}),
             'bio': forms.Textarea(attrs={
@@ -192,6 +192,8 @@ class UserProfileForm(forms.ModelForm):
 
     def save(self, commit=True):
         profile = super().save(commit=False)
+        # Establecer el idioma por defecto a español
+        profile.language = 'es-es'
         
         # Actualizar campos del modelo User (sin duplicación)
         user = profile.user
@@ -202,7 +204,7 @@ class UserProfileForm(forms.ModelForm):
         if commit:
             user.save()
             profile.save()
-        return profile 
+        return profile
 
 class CategoryForm(forms.ModelForm):
     class Meta:
